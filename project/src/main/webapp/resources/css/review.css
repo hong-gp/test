@@ -1,0 +1,90 @@
+#review .contents {
+    width: 70%;
+}
+#review .review_header .review_header_genre {
+    margin-top: 30px;
+}
+#review .review_header .review_header_genre label {
+    cursor: pointer;
+    margin-right: 20px;
+    border-bottom: 1px solid #666;
+    color: #666;
+    padding-bottom: 5px;
+}
+.checked-label {
+    color: red !important;
+    font-weight: 700;
+}
+#review .review_body {
+    margin-top: 50px;
+    background: #f7f7f7;
+    padding: 10px;
+}
+#review .review_body ul {
+    display: flex;
+    column-gap: 10px;
+}
+#review .review_body ul li {
+    cursor: pointer;
+    color: #666;
+}
+#review .review_body ul .selected {
+    color: red !important;
+    font-weight: 700;
+}
+#review .review_body_sort {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+#review .review_body_sort .rate {
+    padding-right: 30px;
+}
+#review .review_body .review_list {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding: 20px 0;
+}
+#review .review_body .review_lists .album_thum {
+    max-width: 120px;
+    width: 100%;
+    max-height: 120px;
+    height: 100%;
+}
+#review .review_body .review_lists .album_thum img {
+    width: 100%;
+}
+#review .review_body .review_list .album_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 20px;
+}
+#review .review_body .review_list .album_title {
+    font-weight: 700;
+}
+#review .review_body .review_list .album_artist {
+    font-weight: 700;
+}
+#review .review_body .review_list .album_date {
+    font-size: 14px;
+}
+#review .review_body .review_list .album_genre {
+    font-size: 14px;
+    color: lightcoral;
+}
+#review .review_body .review_list .album_rate {
+    line-height: 120px;
+    margin-left: auto;
+    padding-right: 35px;
+}
+#review .review_body .review_list .album_rate span {
+    background: linear-gradient(to right top, #861657, #ffa69e);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-size: 20px;
+    font-weight: 900;
+}

@@ -1,0 +1,78 @@
+/* s : content_review */
+#content_review .review_header {
+    margin-bottom: 10px;
+}
+#content_review .review_body {
+    display: flex;
+    background: #f7f7f7;
+    padding: 30px;
+}
+#content_review .review_body .review_album {
+    width: 33%;
+    margin-right: 30px;
+}
+#content_review .review_body .review_album .thum img {
+    width: 100%;
+}
+#content_review .review_body .review_review {
+    width: 67%;
+}
+#content_review .review_body .review_review .title {
+    margin: 5px 0px;
+}
+#content_review .review_body .review_review .rank {
+    margin: 5px 0px;
+}
+/* e : content_review */
+
+/* s : latest_album */
+#latest_album {
+    margin-top: 50px;
+}
+#latest_album .latest_album_header {
+    margin-bottom: 10px;
+}
+#latest_album .latest_album_body ul {
+    display: flex;
+    column-gap: 50px;
+}
+#latest_album .latest_album_body ul a {
+    width: 20%;
+}
+#latest_album .latest_album_body ul li .thum img {
+    width: 100%;
+}
+/* e : latest_album */
+
+/* s : news */
+#news {
+    margin-top: 200px;
+}
+#news .container {
+    display: flex;
+    flex-direction: row;
+}
+#news .news_main {
+    width: 65%;
+    border-right: 1px solid #ccc;
+    padding-right: 20px;
+}
+#news .news_thum img {
+    width: 100%;
+}
+#news .news_main .news_text .title {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+#news .news_sub {
+    width: 35%;
+    padding-left: 15px;
+}
+#news .news_sub li {
+    border-bottom: 1px solid #ccc;
+    padding: 20px 0;
+}
+#news .news_sub li .news_sub_title {
+    margin-bottom: 20px;
+}
+/* e : news */
