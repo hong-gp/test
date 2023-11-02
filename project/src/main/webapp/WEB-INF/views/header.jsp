@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <body>
@@ -8,7 +9,7 @@
 		<div class="container">
 			<div class="header_logo">
 				<div class="logo">
-					<a href="index.html">
+					<a href='<c:url value="/" />'>
 						<h2>Groovy</h2>
 					</a>
 				</div>
@@ -28,19 +29,28 @@
 						<a href="#">
 							<li>차트</li>
 						</a>
-						<a href="#">
+						<a href="<c:url value='/board' />">
 							<li>커뮤니티</li>
 						</a>
 					</ul>
 				</div>
 				<div class="account">
 					<ul>
-						<a href="login.html">
-							<li>로그인</li>
-						</a>
-						<a href="#">
-							<li>회원가입</li>
-						</a>
+						<c:choose>
+							<c:when test="${ empty sessionScope.id }">
+								<a href='<c:url value="/login" />'>
+									<li>로그인</li>
+								</a>
+								<a href='<c:url value="/register" />'>
+									<li>회원가입</li>
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a href='<c:url value="/logout" />'>
+									<li>로그아웃</li>
+								</a>
+							</c:otherwise>
+						</c:choose>
 					</ul>
 				</div>
 			</div>

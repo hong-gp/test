@@ -17,5 +17,11 @@ public interface UserDao {
 	List<User> selectAll() throws Exception;
 
 	int deleteAll();
+	
+	User findByNickname(String nickname) throws Exception;
+	
+	User findUserId(User user) throws Exception;
+	
+	User findUserPw(User user) throws Exception;
 
 }

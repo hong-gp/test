@@ -70,6 +70,21 @@ public class User {
 		this.birth = birth;
 	}
 	
+	public User(String name, String tel, String email) {
+		super();
+		this.name = name;
+		this.tel = tel;
+		this.email = email;
+	}
+
+	public User(String id, String name, String tel, String email) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.tel = tel;
+		this.email = email;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(birth, email, id, name, nickname, password, tel);

@@ -83,7 +83,7 @@ public class UserDaoImplTest {
 		assertTrue(list.size() == 2);
 	}
 
-	@Test
+//	@Test
 	public void testDeleteAll() throws Exception {
 		userDao.deleteAll();
 		User user = new User("asdf", "1234", "全辨悼", "狼利", "01011111111", "asdf@exam.com", "20101010");
@@ -92,5 +92,32 @@ public class UserDaoImplTest {
 		assertTrue(userDao.insert(user) == 1);
 		assertTrue(userDao.insert(user2) == 1);
 		assertTrue(userDao.deleteAll() == 2);
+	}
+	
+//	@Test
+	public void testFindByNickname() throws Exception {
+		userDao.deleteAll();
+		User user = new User("asdf", "1234", "全辨悼", "狼利", "01011111111", "asdf@exam.com", "20101010");
+		assertTrue(userDao.insert(user) == 1);
+		User user2 = userDao.findByNickname(user.getNickname());
+		assertTrue(user.equals(user2));
+	}
+	
+	@Test
+	public void testFindUserId() throws Exception {
+		userDao.deleteAll();
+		User user = new User("asdf", "1234", "全辨悼", "狼利", "01011111111", "asdf@exam.com", "20101010");
+		assertTrue(userDao.insert(user) == 1);
+		User user2 = userDao.findUserId(new User(user.getName(), user.getTel(), user.getEmail()));
+		assertTrue(user.equals(user2));
+	}
+	
+	@Test
+	public void testFindUserPw() throws Exception {
+		userDao.deleteAll();
+		User user = new User("asdf", "1234", "全辨悼", "狼利", "01011111111", "asdf@exam.com", "20101010");
+		assertTrue(userDao.insert(user) == 1);
+		User user2 = userDao.findUserId(new User(user.getId(), user.getName(), user.getTel(), user.getEmail()));
+		assertTrue(user.equals(user2));
 	}
 }

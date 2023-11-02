@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.net.URLDecoder" %>
+<%@ taglib prefix = "c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -28,20 +30,22 @@
                             <div class="login_header">
                                 <h2>로그인</h2>
                             </div>
-                            <div class="login_body">
-                                <input type="text" name="id" id="id" placeholder="아이디">
+                            <form class="login_body" action='<c:url value="/login" />' method="post">
+                            	<input type="hidden" name="toUrl" value="${ param.toUrl }" />
+                            	<div id="msg">${ URLDecoder.decode(param.msg, "utf-8") }</div>
+                                <input type="text" name="id" id="id" placeholder="아이디" autofocus value="${ cookie.id.value }">
                                 <input type="password" name="password" id="password" placeholder="비밀번호">
                                 <label>
-                                    <input type="checkbox" name="rememberId" id="rememberId"> 
+                                    <input type="checkbox" name="rememberId" id="rememberId" ${ empty cookie.id.value ? "" : "checked" }> 
                                     <span>아이디 저장</span>
                                 </label>
-                                <a href="#">ID/PW 찾기</a>
-                                <button>로그인</button>
-                            </div>
+                                <a href="<c:url value='/findUser' />">ID/PW 찾기</a>
+                                <button type="submit">로그인</button>
+                            </form>
                             <div class="login_footer">
                                 <div class="register_box">
                                     <span>아직 회원이 아니신가요?</span>
-                                    <span><a href="register.html">회원가입</a></span>
+                                    <span><a href="<c:url value='/register' />">회원가입</a></span>
                                 </div>
                             </div>
                         </div>

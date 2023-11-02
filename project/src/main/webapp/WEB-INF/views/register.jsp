@@ -213,7 +213,7 @@
             if (birth == "") {
                 nullBirth.innerHTML = '생년월일을 입력해주세요.';
                 check = false;
-            } else if (!/^\d{8}$/.test(tel)) {
+            } else if (!/^\d{8}$/.test(birth)) {
                 nullBirth.innerHTML = '정확한 생년월일 8자를 입력해주세요.';
                 check = false;
             } else {
@@ -234,35 +234,26 @@
             }
 
             if (check) {
-            	let id = $("#id").val();
-    	    	let password = $("#password").val()
-    	    	let name = $("#name").val()
-    	    	let tel = $("#tel").val()
-    	    	let email = $("#mail1").val() + "@" + $("#mail2").val()
-    	    	let gender = $("input[name='gender']").val()
-    	    	let checks = "";
-    	    	$('input[name="check"]:checked').each(function() {
-    	    		checks += $(this).val() + ", ";
-    	        });
-    	    	console.log(checks);
+            	
+    	    	let email = mail1 + "@" + mail2;
     	    	
     	    	$.ajax({
-    	    		url: "./register",
+    	    		url: "/groovy/register",
     	    		type: "post",
     	    		data: {
     	    			id: id,
     	    			password: password,
     	    			name: name,
+    	    			nickname: nickname,
     	    			tel: tel,
     	    			email: email,
-    	    			gender: gender,
-    	    			checks: checks
+    	    			birth: birth
     	    		},
     	    		success: function(result) {
     	    			console.log(result);
-    	    			if (result == 1) {
+    	    			if (result != 0) {
     	    				console.log("성공");
-    	    				location.href = ("./login");
+    	    				location.href = ("/groovy/login");
     	    			} else {
     	    				console.log("실패");
     	    				$("#nullId").html("이미 존재하는 아이디입니다.");

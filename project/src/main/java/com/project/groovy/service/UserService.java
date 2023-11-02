@@ -18,4 +18,10 @@ public interface UserService {
 
 	int deleteAll() throws Exception;
 
+	User findByNickname(String nickname) throws Exception;
+	
+	User findUserId(User user) throws Exception;
+	
+	User findUserPw(User user) throws Exception;
+
 }

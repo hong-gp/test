@@ -13,7 +13,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Autowired
 	SqlSession session;
-	String namespace = "com.project.groovy.";
+	String namespace = "com.project.groovy.User.";
 	
 	@Override
 	public int insert(User user) throws Exception {
@@ -43,5 +43,20 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public int deleteAll() {
 		return session.delete(namespace + "deleteAll");
+	}
+
+	@Override
+	public User findByNickname(String nickname) throws Exception {
+		return session.selectOne(namespace + "findByNickname", nickname);
+	}
+
+	@Override
+	public User findUserId(User user) throws Exception {
+		return session.selectOne(namespace + "findUserId", user);
+	}
+
+	@Override
+	public User findUserPw(User user) throws Exception {
+		return session.selectOne(namespace + "findUserPw", user);
 	}
 }

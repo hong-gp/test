@@ -43,4 +43,19 @@ public class UserServiceImpl implements UserService {
 	public int deleteAll() throws Exception {
 		return userDao.deleteAll();
 	}
+
+	@Override
+	public User findByNickname(String nickname) throws Exception {
+		return userDao.findByNickname(nickname);
+	}
+
+	@Override
+	public User findUserId(User user) throws Exception {
+		return userDao.findUserId(user);
+	}
+
+	@Override
+	public User findUserPw(User user) throws Exception {
+		return userDao.findUserPw(user);
+	}
 }
