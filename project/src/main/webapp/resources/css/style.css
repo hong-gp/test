@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @font-face {
     font-family: 'Pretendard-Regular';
     src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
@@ -39,9 +40,24 @@ a {
     flex-direction: row;
     justify-content: space-between;
 }
+.btn {
+    padding: 6px 10px;
+    border: none;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn1 {
+    background: #EA1821;
+    color: #fff;
+}
+.btn2 {
+    background: #444;
+    color: #fff;
+}
 /* e : 전체 */
 
-/* s : 폰트 */
+/* s : �룿�듃 */
 #header .container .header_menu {
     font-family: 'Pretendard-Regular';
 }
@@ -49,7 +65,7 @@ a {
 .news_sub_title, .news_text .category, .news_text .title {
     font-family: 'Pretendard-Black';
 }
-/* e : 폰트 */
+/* e : �룿�듃 */
 
 /* s : header */
 #header {

@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="select" parameterType="int" resultType="Board">
-		select * from where num=#{num}
+		select * from board where num=#{num}
 	</select>
 	
 	<delete id="deleteAll">
@@ -53,6 +53,8 @@
  				or content like concat('%', #{keyword}, '%'))
 			</otherwise>
 		</choose>
+	</sql>
+	<sql id="searchConditionCategory">
 		<choose>
 			<when test='optionCategory=="M"'>
 				and category = "music"
@@ -80,6 +82,7 @@
 		<include refid="selectFromBoard" />
 		where true
 		<include refid="searchCondition" />
+		<include refid="searchConditionCategory" />
 		order by postdate desc, num desc
 		limit #{offset}, #{pageSize}
 	</select>
@@ -87,7 +90,8 @@
 	<select id="searchResultCnt" parameterType="SearchCondition" resultType="int">
 		select count(*) from board
 		where true
-		<include refid="SeachCondition" />
+		<include refid="searchCondition" />
+		<include refid="searchConditionCategory" />
 	</select>
 	
 	<update id="updateLikeCnt" parameterType="map">

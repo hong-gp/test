@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.groovy.Comment">
+
+	<delete id="deleteAll" parameterType="int">
+		delete from comment where bno=#{bno}
+	</delete>
+	
+	<select id="count" parameterType="int" resultType="int">
+		select count(*) from comment
+		where bno=#{bno}
+	</select>
+	
+	<delete id="delete" parameterType="map">
+		delete from comment where cno=#{cno} and commenter=#{commenter}
+	</delete>
+	
+	<insert id="insert" parameterType="Comment">
+		insert into comment(bno, comment, commenter, commenter_nickname, pcno, ref, re_step, re_level)
+		values (#{bno}, #{comment}, #{commenter}, #{commenter_nickname}, #{pcno}, #{ref}, #{re_step}, #{re_level})
+	</insert>
+	
+	<select id="selectAll" parameterType="int" resultType="Comment">
+		select * from comment where bno=#{bno}
+		order by ref asc, pcno asc, re_level asc, reg_date asc, cno asc
+	</select>
+	
+	<select id="select" parameterType="int" resultType="Comment">
+		select * from comment where cno=#{cno}
+	</select>
+	
+	<select id="maxStep" resultType="integer" parameterType="integer">
+		select if null(max(re_step), 0) + 1 from comment where ref=#{ref}
+	</select>
+	
+	<update id="updateStep" parameterType="Comment">
+		update comment set re_step = re_step + 1 where ref=#{ref} and re_step > #{re_step}
+	</update>
+	
+	<update id="update" parameterType="Comment">
+		update comment set comment=#{comment}, ref=#{ref}
+		where cno=#{cno} and commenter=#{commenter}
+	</update>
+	
+	<update id="updateLikeCnt" parameterType="map">
+		update comment set like_cnt=like_cnt + #{like_cnt}
+		where cno = #{cno}
+	</update>
+	
+</mapper>

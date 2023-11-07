@@ -9,30 +9,30 @@ import com.project.groovy.model.User;
 
 public interface BoardDao {
 
-	int count();
+	int count() throws Exception;
 
-	List<User> selectAll();
+	List<Board> selectAll() throws Exception;
 
-	Board select(int num);
+	Board select(int num) throws Exception;
 
 	int deleteAll();
 
-	int delete(Map<Integer, String> map);
+	int delete(Integer num, String writer) throws Exception;
 
-	int insert(Board board);
+	int insert(Board board) throws Exception;
 
-	int increaseViewCnt(int num);
+	int increaseViewCnt(int num) throws Exception;
 
-	int update(Board board);
+	int update(Board board) throws Exception;
 
-	List<Board> selectPage(Map<Integer, String> map);
+	List<Board> selectPage(Map map) throws Exception;
 
-	List<Board> searchSelectPage(SearchCondition sc);
+	List<Board> searchSelectPage(SearchCondition sc) throws Exception;
 
-	int searchResultCnt(SearchCondition sc);
+	int searchResultCnt(SearchCondition sc) throws Exception;
 
-	int updateLikeCnt(Map<Integer, Integer> map);
+	int updateLikeCnt(Integer num, Integer like_cnt) throws Exception;
 
-	int updateCommentCnt(Map<Integer, Integer> map);
+	int updateCommentCnt(Integer num, Integer comment_cnt) throws Exception;
 
 }

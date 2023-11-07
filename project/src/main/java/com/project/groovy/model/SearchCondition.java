@@ -64,13 +64,18 @@ public class SearchCondition {
 		return UriComponentsBuilder.newInstance()
 				.queryParam("page", page)
 				.queryParam("pageSize", pageSize)
-				.queryParam("optionCategory", optionCategory)
 				.queryParam("optionSearch", optionSearch)
+				.queryParam("optionCategory", optionCategory)
 				.queryParam("keyword", keyword)
 				.build().toString();
 	}
 	public String getQueryString() {
 		return getQueryString(page);
+	}
+	@Override
+	public String toString() {
+		return "SearchCondition [page=" + page + ", pageSize=" + pageSize + ", keyword=" + keyword + ", optionSearch="
+				+ optionSearch + ", optionCategory=" + optionCategory + "]";
 	}
 	
 }

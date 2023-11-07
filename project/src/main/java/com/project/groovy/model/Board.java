@@ -14,7 +14,7 @@ public class Board {
 	private Date postdate;
 	private int view_cnt;
 	private int comment_cnt;
-	private int like_cno;
+	private int like_cnt;
 	private boolean is_update;
 
 	public int getNum() {
@@ -89,12 +89,12 @@ public class Board {
 		this.comment_cnt = comment_cnt;
 	}
 
-	public int getLike_cno() {
-		return like_cno;
+	public int getLike_cnt() {
+		return like_cnt;
 	}
 
-	public void setLike_cno(int like_cno) {
-		this.like_cno = like_cno;
+	public void setLike_cnt(int like_cnt) {
+		this.like_cnt = like_cnt;
 	}
 
 	public boolean isIs_update() {
@@ -122,7 +122,7 @@ public class Board {
 	public String toString() {
 		return "Board [num=" + num + ", category=" + category + ", title=" + title + ", content=" + content
 				+ ", writer=" + writer + ", writer_nickname=" + writer_nickname + ", postdate=" + postdate
-				+ ", view_cnt=" + view_cnt + ", comment_cnt=" + comment_cnt + ", like_cno=" + like_cno + ", is_update="
+				+ ", view_cnt=" + view_cnt + ", comment_cnt=" + comment_cnt + ", like_cnt=" + like_cnt + ", is_update="
 				+ is_update + "]";
 	}
 

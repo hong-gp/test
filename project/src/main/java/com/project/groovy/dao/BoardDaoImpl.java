@@ -1,5 +1,6 @@
 package com.project.groovy.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,17 +20,17 @@ public class BoardDaoImpl implements BoardDao {
 	String namespace = "com.project.groovy.Board.";
 	
 	@Override
-	public int count() {
+	public int count() throws Exception {
 		return session.selectOne(namespace + "count");
 	}
 	
 	@Override
-	public List<User> selectAll() {
+	public List<Board> selectAll() throws Exception {
 		return session.selectList(namespace + "selectAll");
 	}
 	
 	@Override
-	public Board select(int num) {
+	public Board select(int num) throws Exception {
 		return session.selectOne(namespace + "select", num);
 	}
 	
@@ -39,47 +40,56 @@ public class BoardDaoImpl implements BoardDao {
 	}
 	
 	@Override
-	public int delete(Map<Integer, String> map) {
+	public int delete(Integer num, String writer) throws Exception {
+		Map map = new HashMap();
+		map.put("num", num);
+		map.put("writer", writer);
 		return session.delete(namespace + "delete", map);
 	}
 	
 	@Override
-	public int insert(Board board) {
+	public int insert(Board board) throws Exception {
 		return session.insert(namespace + "insert", board);
 	}
 	
 	@Override
-	public int increaseViewCnt(int num) {
+	public int increaseViewCnt(int num) throws Exception {
 		return session.update(namespace + "increaseViewCnt", num);
 	}
 	
 	@Override
-	public int update(Board board) {
+	public int update(Board board) throws Exception {
 		return session.update(namespace + "update", board);
 	}
 	
 	@Override
-	public List<Board> selectPage(Map<Integer, String> map) {
+	public List<Board> selectPage(Map map) throws Exception {
 		return session.selectList(namespace + "selectPage", map);
 	}
 	
 	@Override
-	public List<Board> searchSelectPage(SearchCondition sc) {
+	public List<Board> searchSelectPage(SearchCondition sc) throws Exception {
 		return session.selectList(namespace + "searchSelectPage", sc);
 	}
 	
 	@Override
-	public int searchResultCnt(SearchCondition sc) {
+	public int searchResultCnt(SearchCondition sc) throws Exception {
 		return session.selectOne(namespace + "searchResultCnt", sc);
 	}
 	
 	@Override
-	public int updateLikeCnt(Map<Integer, Integer> map) {
-		return session.selectOne(namespace + "updateLikeCnt", map);
+	public int updateLikeCnt(Integer num, Integer like_cnt) throws Exception {
+		Map map = new HashMap();
+		map.put("like_cnt", like_cnt);
+		map.put("num", num);
+		return session.update(namespace + "updateLikeCnt", map);
 	}
 	
 	@Override
-	public int updateCommentCnt(Map<Integer, Integer> map) {
+	public int updateCommentCnt(Integer num, Integer comment_cnt) throws Exception {
+		Map map = new HashMap();
+		map.put("num", num);
+		map.put("comment_cnt", comment_cnt);
 		return session.update(namespace + "updateCommentCnt", map);
 	}
 }

@@ -11,17 +11,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.project.groovy.service.SpotifyService;
 
 import se.michaelthelin.spotify.model_objects.specification.Album;
+import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
 
 @Controller
 public class SpotifyController {
-	
-	 @Autowired
-	 private SpotifyService spotifyService;
 
-	 @GetMapping("/search")
-	 public String searchAlbum(@RequestParam(name = "query") String query, Model model) {
-		 List<Album> albums = spotifyService.searchAlbums(query);
-		 model.addAttribute("albums", albums);
-		 return "album-list"; // Thymeleaf 템플릿 파일 이름
-	 }
+	@Autowired
+	private SpotifyService spotifyService;
+
+	@GetMapping("/search")
+	public String searchAlbum(@RequestParam(name = "query") String query, Model model) {
+		List<Album> albums = spotifyService.searchAlbums(query);
+		model.addAttribute("albums", albums);
+		return "album-list";
+	}
+
+	@GetMapping("/latest-albums")
+	public String getLatestAlbums(Model model) {
+		List<AlbumSimplified> latestAlbums = spotifyService.getLatestAlbums();
+		model.addAttribute("latestAlbums", latestAlbums);
+		return "latest-album-list";
+	}
 }

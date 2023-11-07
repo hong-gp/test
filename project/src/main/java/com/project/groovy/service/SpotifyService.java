@@ -13,11 +13,13 @@ import com.neovisionaries.i18n.CountryCode;
 
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.AbstractModelObject;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.model_objects.specification.Album;
 import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import se.michaelthelin.spotify.requests.data.browse.GetListOfNewReleasesRequest;
 import se.michaelthelin.spotify.requests.data.search.simplified.SearchAlbumsRequest;
 
 @Service
@@ -61,6 +63,38 @@ public class SpotifyService {
             return albums;
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new RuntimeException("Error: " + e.getMessage());
+        }
+    }
+    
+    public List<AlbumSimplified> getLatestAlbums() {
+        SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .build();
+
+        try {
+            // 액세스 토큰 요청
+            ClientCredentialsRequest credentialsRequest = spotifyApi.clientCredentials().build();
+            ClientCredentials credentials = credentialsRequest.execute();
+            spotifyApi.setAccessToken(credentials.getAccessToken());
+
+            // 최신 앨범 가져오기
+            GetListOfNewReleasesRequest newReleasesRequest = spotifyApi.getListOfNewReleases().limit(10).build();
+            final Paging<AlbumSimplified> albumPaging = newReleasesRequest.execute();
+
+            List<AlbumSimplified> latestAlbums = new ArrayList<>();
+            for (AbstractModelObject albumObject : albumPaging.getItems()) {
+                if (albumObject instanceof AlbumSimplified) {
+                    latestAlbums.add((AlbumSimplified) albumObject);
+                }
+            }
+
+            return latestAlbums;
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            // 예외 처리 방법에 따라 로깅 또는 다른 조치를 취할 수 있습니다.
+            // 예: 로깅
+            System.err.println("Error while retrieving new releases: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
 }

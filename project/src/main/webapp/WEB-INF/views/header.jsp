@@ -17,10 +17,10 @@
 			<div class="header_menu">
 				<div class="nav">
 					<ul>
-						<a href="news.html">
+						<a href="<c:url value='/news/list' />">
 							<li>뉴스</li>
 						</a>
-						<a href="review.html">
+						<a href="<c:url value='/review/list' />">
 							<li>리뷰</li>
 						</a>
 						<a href="#">
@@ -29,7 +29,7 @@
 						<a href="#">
 							<li>차트</li>
 						</a>
-						<a href="<c:url value='/board' />">
+						<a href="<c:url value='/board/list' />">
 							<li>커뮤니티</li>
 						</a>
 					</ul>

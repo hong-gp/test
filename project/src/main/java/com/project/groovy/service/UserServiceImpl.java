@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User select(String id ) throws Exception {
+	public User select(String id) throws Exception {
 		return userDao.select(id);
 	}
 	

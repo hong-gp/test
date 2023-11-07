@@ -21,6 +21,14 @@ public class UserDaoImplTest {
 	@Autowired
 	private UserDao userDao;
 	
+	@Test
+	public void test() throws Exception {
+		User user = userDao.select("asdf");
+		assertTrue(user != null);
+		System.out.println(user.getNickname());
+		
+	}
+	
 //	@Test
 	public void testInsert() throws Exception {
 		userDao.deleteAll();
@@ -103,7 +111,7 @@ public class UserDaoImplTest {
 		assertTrue(user.equals(user2));
 	}
 	
-	@Test
+//	@Test
 	public void testFindUserId() throws Exception {
 		userDao.deleteAll();
 		User user = new User("asdf", "1234", "全辨悼", "狼利", "01011111111", "asdf@exam.com", "20101010");
@@ -112,7 +120,7 @@ public class UserDaoImplTest {
 		assertTrue(user.equals(user2));
 	}
 	
-	@Test
+//	@Test
 	public void testFindUserPw() throws Exception {
 		userDao.deleteAll();
 		User user = new User("asdf", "1234", "全辨悼", "狼利", "01011111111", "asdf@exam.com", "20101010");

@@ -8,35 +8,78 @@ import org.springframework.stereotype.Service;
 
 import com.project.groovy.dao.BoardDao;
 import com.project.groovy.model.Board;
+import com.project.groovy.model.SearchCondition;
 import com.project.groovy.model.User;
 
 @Service
-public class BoardServiceImpl {
+public class BoardServiceImpl implements BoardService {
 
 	@Autowired
 	BoardDao boardDao;
 	
-	public int count() {
+	@Override
+	public int count() throws Exception {
 		return boardDao.count();
 	}
 	
-	public List<User> selectAll() {
+	@Override
+	public List<Board> selectAll() throws Exception {
 		return boardDao.selectAll();
 	}
 	
-	public Board select(int num) {
+	@Override
+	public Board select(int num) throws Exception {
+		boardDao.increaseViewCnt(num);
 		return boardDao.select(num);
 	}
 	
+	@Override
 	public int deleteAll() {
 		return boardDao.deleteAll();
 	}
 	
-	public int delete(Map<Integer, String> map) {
-		return boardDao.delete(map);
+	@Override
+	public int delete(Integer num, String writer) throws Exception {
+		return boardDao.delete(num, writer);
 	}
 	
-	public int insert(Board board) {
+	@Override
+	public int insert(Board board) throws Exception {
 		return boardDao.insert(board);
+	}
+	
+	@Override
+	public int increaseViewCnt(int num) throws Exception {
+		return boardDao.increaseViewCnt(num);
+	}
+	
+	@Override
+	public int update(Board board) throws Exception {
+		return boardDao.update(board);
+	}
+	
+	@Override
+	public List<Board> selectPage(Map map) throws Exception {
+		return boardDao.selectPage(map);
+	}
+	
+	@Override
+	public List<Board> searchSelectPage(SearchCondition sc) throws Exception {
+		return boardDao.searchSelectPage(sc);
+	}
+	
+	@Override
+	public int searchResultCnt(SearchCondition sc) throws Exception {
+		return boardDao.searchResultCnt(sc);
+	}
+	
+	@Override
+	public int updateLikeCnt(Integer num, Integer like_cnt) throws Exception {
+		return boardDao.updateLikeCnt(num, like_cnt);
+	}
+	
+	@Override
+	public int updateCommentCnt(Integer num, Integer comment_cnt) throws Exception {
+		return boardDao.updateCommentCnt(num, comment_cnt);
 	}
 }
