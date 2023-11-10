@@ -106,4 +106,19 @@
 		where num = #{num}
 	</update>
 	
+	<delete id="deleteLikeAll">
+		delete from boardLike
+	</delete>
+	
+	<select id="selectLike" parameterType="map" resultType="integer">
+		select count(*) from boardLike where bno=#{bno} and id=#{id}
+	</select>
+	
+	<insert id="insertLike" parameterType="map">
+		insert into boardLike (id, bno) values (#{id}, #{bno})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="map">
+		delete from boardLike where id=#{id} AND bno=#{bno}
+	</delete>
 </mapper>

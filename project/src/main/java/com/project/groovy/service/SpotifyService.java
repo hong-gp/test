@@ -79,7 +79,7 @@ public class SpotifyService {
             spotifyApi.setAccessToken(credentials.getAccessToken());
 
             // 최신 앨범 가져오기
-            GetListOfNewReleasesRequest newReleasesRequest = spotifyApi.getListOfNewReleases().limit(10).build();
+            GetListOfNewReleasesRequest newReleasesRequest = spotifyApi.getListOfNewReleases().limit(50).build();
             final Paging<AlbumSimplified> albumPaging = newReleasesRequest.execute();
 
             List<AlbumSimplified> latestAlbums = new ArrayList<>();
@@ -95,6 +95,25 @@ public class SpotifyService {
             // 예: 로깅
             System.err.println("Error while retrieving new releases: " + e.getMessage());
             return new ArrayList<>();
+        }
+    }
+    
+    public Album searchAlbumById(String albumId) {
+        SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .build();
+        ClientCredentialsRequest credentialsRequest = spotifyApi.clientCredentials().build();
+
+        try {
+            ClientCredentials credentials = credentialsRequest.execute();
+            spotifyApi.setAccessToken(credentials.getAccessToken());
+
+            Album album = spotifyApi.getAlbum(albumId).build().execute();
+            return album;
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            System.err.println("앨범 ID " + albumId + "의 상세 정보를 가져오는 중 오류 발생");
+            throw new RuntimeException("에러: " + e.getMessage());
         }
     }
 }

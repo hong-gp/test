@@ -17,14 +17,14 @@
 		delete from comment where cno=#{cno} and commenter=#{commenter}
 	</delete>
 	
-	<insert id="insert" parameterType="Comment">
+	<insert id="insert" parameterType="Comment" useGeneratedKeys="true" keyProperty="cno">
 		insert into comment(bno, comment, commenter, commenter_nickname, pcno, ref, re_step, re_level)
 		values (#{bno}, #{comment}, #{commenter}, #{commenter_nickname}, #{pcno}, #{ref}, #{re_step}, #{re_level})
 	</insert>
 	
 	<select id="selectAll" parameterType="int" resultType="Comment">
 		select * from comment where bno=#{bno}
-		order by ref asc, pcno asc, re_level asc, reg_date asc, cno asc
+		order by ref asc, re_step asc, re_level asc, reg_date asc, cno asc
 	</select>
 	
 	<select id="select" parameterType="int" resultType="Comment">
@@ -32,15 +32,19 @@
 	</select>
 	
 	<select id="maxStep" resultType="integer" parameterType="integer">
-		select if null(max(re_step), 0) + 1 from comment where ref=#{ref}
+		select ifnull(max(re_step), 0) + 1 from comment where ref=#{ref}
+	</select>
+	
+	<select id="selectLast" resultType="int">
+		select MAX(cno) from comment
 	</select>
 	
 	<update id="updateStep" parameterType="Comment">
-		update comment set re_step = re_step + 1 where ref=#{ref} and re_step > #{re_step}
+		update comment set re_step = re_step + 1 where ref=#{ref} and re_step >= #{re_step}
 	</update>
 	
 	<update id="update" parameterType="Comment">
-		update comment set comment=#{comment}, ref=#{ref}
+		update comment set comment=#{comment}
 		where cno=#{cno} and commenter=#{commenter}
 	</update>
 	

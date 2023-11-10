@@ -52,7 +52,8 @@
 								<div class="view_body_likey">
 									<button class="likey_button" type="button">
 										<div class="like_cnt">
-											<i class="fa-regular fa-thumbs-up fa-lg"></i> ${ board.like_cnt }
+											<i class="fa-regular fa-thumbs-up fa-lg"></i> 
+											<span class="like_cnt_text">${ board.like_cnt }</span>
 										</div>
 										<div class="like_text">좋아요</div>
 									</button>
@@ -117,8 +118,28 @@
     	});
     }
     
+    let checkLike = function(num) {
+    	$.ajax({
+    		type: 'post',
+    		url: '/groovy/check',
+    		data: {
+    			bno: bno
+    		},
+    		success: function(result) {
+    			if (result != 0) {
+    				$('.likey_button').css('color', 'red');
+    				$('.likey_button').css('border-color', 'red');
+    			} else {
+    				$('.likey_button').css('color', '#666');
+    				$('.likey_button').css('border-color', '#666');
+    			}
+    		}
+    	});
+    };
+    
     $(document).ready(function(){
     	showComments(bno);
+    	checkLike(bno);
     	$('#comment_send').click(function() {
     		let comment = $('textarea[name=comment]').val();
     		if (comment.trim() == '') {
@@ -141,6 +162,20 @@
     			}),
     			success: function(result) {
     				showComments(bno);
+    			},
+    			error: function() {
+    				alert("잠시 후 다시 시도해주세요.");
+    			}
+    		});
+    		
+    		$.ajax({
+    			type: 'get',
+    			url: '/groovy/like',
+    			data: {
+    				bno: bno
+    			},
+    			success: function(result) {
+    				$(".like_cnt_text").html(result);
     			},
     			error: function() {
     				alert("잠시 후 다시 시도해주세요.");
@@ -218,7 +253,7 @@
     		let comment = $(this).parent().parent().prev().text();
     		
     		$(this).parent().parent().prev().html('<textarea class="recomment" name="recomment">' + comment + '</textarea>');
-    		$(this).parent().html('<a href="javascript:;" id="modBtnB">수정</a>');
+    		$(this).parent().html('<a href="javascript:;" class="modBtn">수정</a>');
     		
     		$("#modBtnB").attr('data-cno', cno);
     	});
@@ -250,6 +285,7 @@
     		}
     		let pcno = $(this).parent().parent().parent().attr("data-cno");
     		let ref = $(this).parent().parent().parent().attr("data-ref");
+    		let step = $(this).parent().parent().parent().attr("data-step");
     		let level = $(this).parent().parent().parent().attr("data-level");
     		
     		$.ajax({
@@ -263,7 +299,7 @@
     				comment: comment,
     				pcno: pcno,
     				ref: ref,
-    				re_step: 0,
+    				re_step: Number(step) + 1,
     				re_level: Number(level) + 1
     			}),
     			success: function(result) {
@@ -273,7 +309,24 @@
     				alert("잠시 후 다시 시도해주세요.");
     			}
     		});
-    	})
+    	});
+    	
+    	$(".view_body_likey").on("click", ".likey_button", function() {
+    		$.ajax({
+    			type: 'post',
+    			url: '/groovy/like',
+    			data: {
+    				bno: bno
+    			},
+    			success: function(result) {
+    				$(".like_cnt_text").html(result);
+    				checkLike(bno);
+    			},
+    			error: function() {
+    				alert("잠시 후 다시 시도해주세요.");
+    			}
+    		});
+    	});
     });
     
     let toHtml = function(comments) {
@@ -284,6 +337,7 @@
     		tmp += '<li data-cno=' + comment.cno;
     		tmp += ' data-level=' + comment.re_level;
     		tmp += ' data-ref=' + comment.ref;
+    		tmp += ' data-step=' + comment.re_step;
     		tmp += ' data-bno=' + comment.bno + ' style="margin-left: ' + ml + 'em;">';
     		tmp += '<div class="comment_header">';
     		tmp += '<div class="comment_writer">' + comment.commenter_nickname + '</div>';

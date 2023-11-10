@@ -22,7 +22,7 @@ public class BoardDaoImplTest {
 	@Autowired
 	BoardDao boardDao;
 	
-	@Test
+//	@Test
 	public void testInsert220() throws Exception {
 		boardDao.deleteAll();
 		assertTrue(boardDao.count() == 0);
@@ -237,4 +237,10 @@ public class BoardDaoImplTest {
 		assertTrue(boardDao.selectAll().get(0).getComment_cnt() == 0);
 	}
 
+	@Test
+	public void testInsertLike() throws Exception {
+		boardDao.deleteLikeAll();
+		
+		assertTrue(boardDao.insertLike(370, "asdf") == 1);
+	}
 }

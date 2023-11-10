@@ -64,4 +64,11 @@ public class CommentDaoImpl implements CommentDao {
 	public int updateStep(Comment comment) throws Exception {
 		return session.update(namespace + "updateStep", comment);
 	}
+
+	@Override
+	public int selectLast() throws Exception {
+		return session.selectOne(namespace + "selectLast");
+	}
+	
+	
 }

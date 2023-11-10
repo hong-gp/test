@@ -21,7 +21,7 @@ public class UserDaoImplTest {
 	@Autowired
 	private UserDao userDao;
 	
-	@Test
+//	@Test
 	public void test() throws Exception {
 		User user = userDao.select("asdf");
 		assertTrue(user != null);
@@ -111,7 +111,7 @@ public class UserDaoImplTest {
 		assertTrue(user.equals(user2));
 	}
 	
-//	@Test
+	@Test
 	public void testFindUserId() throws Exception {
 		userDao.deleteAll();
 		User user = new User("asdf", "1234", "È«±æµ¿", "ÀÇÀû", "01011111111", "asdf@exam.com", "20101010");

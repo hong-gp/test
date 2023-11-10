@@ -1,5 +1,5 @@
 #review .contents {
-    width: 70%;
+    width: 74%;
 }
 #review .review_header .review_header_genre {
     margin-top: 30px;
@@ -18,7 +18,8 @@
 #review .review_body {
     margin-top: 50px;
     background: #f7f7f7;
-    padding: 10px;
+    padding: 20px;
+    border-radius: 10px;
 }
 #review .review_body ul {
     display: flex;
@@ -40,12 +41,20 @@
     justify-content: space-between;
 }
 #review .review_body_sort .rate {
-    padding-right: 30px;
+    padding-right: 53px;
 }
 #review .review_body .review_list {
     display: flex;
-    border-bottom: 1px solid #ccc;
-    padding: 20px 0;
+    padding: 20px 20px;
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 1px 1px 5px #ccc;
+    transition-duration: 0.5s;
+}
+#review .review_body .review_list:hover {
+	transform: scale(1.01);
+	transition: all 0.5s 0s;
 }
 #review .review_body .review_lists .album_thum {
     max-width: 120px;
@@ -87,4 +96,21 @@
     -webkit-background-clip: text;
     font-size: 20px;
     font-weight: 900;
+}
+#page {
+	text-align: center;
+	margin-top: 15px;
+}
+#page a {
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	text-align: center;
+	line-height: 25px;
+	font-size: 14px;
+}
+.active {
+	background: red;
+	color: #fff;
+	border-radius: 50%;
 }

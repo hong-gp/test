@@ -9,5 +9,6 @@
 		<typeAlias alias="Board" type="com.project.groovy.model.Board"/>
 		<typeAlias alias="SearchCondition" type="com.project.groovy.model.SearchCondition"/>
 		<typeAlias alias="Comment" type="com.project.groovy.model.Comment"/>
+		<typeAlias alias="Review" type="com.project.groovy.model.Review"/>
 	</typeAliases>
 </configuration>

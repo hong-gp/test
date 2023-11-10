@@ -21,4 +21,6 @@ public interface CommentService {
 	int maxStep(Integer ref) throws Exception;
 	
 	int updateStep(Comment comment) throws Exception;
+	
+	int lastIndex() throws Exception;
 }

@@ -82,4 +82,19 @@ public class BoardServiceImpl implements BoardService {
 	public int updateCommentCnt(Integer num, Integer comment_cnt) throws Exception {
 		return boardDao.updateCommentCnt(num, comment_cnt);
 	}
+
+	@Override
+	public int insertLike(Integer bno, String id) throws Exception {
+		return boardDao.insertLike(bno, id);
+	}
+
+	@Override
+	public int deleteLike(Integer bno, String id) throws Exception {
+		return boardDao.deleteLike(bno, id);
+	}
+
+	@Override
+	public int selectLike(Integer bno, String id) throws Exception {
+		return boardDao.selectLike(bno, id);
+	}
 }

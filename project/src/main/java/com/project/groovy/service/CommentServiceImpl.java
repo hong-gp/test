@@ -76,8 +76,12 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public int updateStep(Comment comment) throws Exception {
-		// TODO Auto-generated method stub
 		return commentDao.updateStep(comment);
+	}
+
+	@Override
+	public int lastIndex() throws Exception {
+		return commentDao.selectLast();
 	}
 	
 }

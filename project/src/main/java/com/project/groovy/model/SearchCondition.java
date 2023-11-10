@@ -36,6 +36,11 @@ public class SearchCondition {
 		this.optionSearch = optionSearch;
 		this.optionCategory = optionCategory;
 	}
+	public SearchCondition(Integer page, Integer pageSize) {
+		super();
+		this.page = page;
+		this.pageSize = pageSize;
+	}
 	public String getKeyword() {
 		return keyword;
 	}

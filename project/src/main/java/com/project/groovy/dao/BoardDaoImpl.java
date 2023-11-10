@@ -92,4 +92,34 @@ public class BoardDaoImpl implements BoardDao {
 		map.put("comment_cnt", comment_cnt);
 		return session.update(namespace + "updateCommentCnt", map);
 	}
+
+	@Override
+	public int insertLike(Integer bno, String id) throws Exception {
+		Map map = new HashMap();
+		map.put("bno", bno);
+		map.put("id", id);
+		return session.insert(namespace + "insertLike", map); 
+	}
+
+	@Override
+	public int deleteLike(Integer bno, String id) throws Exception {
+		Map map = new HashMap();
+		map.put("bno", bno);
+		map.put("id", id);
+		return session.delete(namespace + "deleteLike", map); 
+	}
+
+	@Override
+	public int deleteLikeAll() throws Exception {
+		return session.delete(namespace + "deleteLikeAll");
+	}
+
+	@Override
+	public int selectLike(Integer bno, String id) throws Exception {
+		Map map = new HashMap();
+		map.put("bno", bno);
+		map.put("id", id);
+		return session.selectOne(namespace + "selectLike", map);
+	}
+	
 }

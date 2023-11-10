@@ -23,4 +23,6 @@ public interface CommentDao {
 	int maxStep(Integer ref) throws Exception;
 	
 	int updateStep(Comment comment) throws Exception;
+	
+	int selectLast() throws Exception;
 }

@@ -35,4 +35,11 @@ public interface BoardDao {
 
 	int updateCommentCnt(Integer num, Integer comment_cnt) throws Exception;
 
+	int insertLike(Integer bno, String id) throws Exception;
+	
+	int deleteLike(Integer bno, String id) throws Exception;
+	
+	int deleteLikeAll() throws Exception;
+	
+	int selectLike(Integer bno, String id) throws Exception;
 }

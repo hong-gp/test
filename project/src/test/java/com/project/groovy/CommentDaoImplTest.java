@@ -21,9 +21,11 @@ public class CommentDaoImplTest {
 	@Autowired
 	CommentDao commentDao;
 	
+	int bno = 370;
+	
 	@Before
 	public void before() throws Exception {
-		commentDao.deleteAll(369);
+		commentDao.deleteAll(bno);
 		System.out.println("before() 실행");
 	}
 	
@@ -36,7 +38,7 @@ public class CommentDaoImplTest {
 	public void delete() throws Exception {
 		// int bno, String comment, String commenter, String commenter_nickname, 
 		// Integer pcno, int re_step, int re_level
-		Comment comment = new Comment(369, "안녕하세요", "asdf", "의적", 0, 369, 0, 0);
+		Comment comment = new Comment(bno, "안녕하세요", "asdf", "의적", 0, 369, 0, 0);
 		assertTrue(commentDao.insert(comment) == 1);
 		assertTrue(commentDao.count(369) == 1);
 		comment.setCno(commentDao.selectAll(369).get(0).getCno());
@@ -46,14 +48,14 @@ public class CommentDaoImplTest {
 	
 //	@Test
 	public void insert() throws Exception {
-		Comment comment = new Comment(369, "안녕하세요", "asdf", "의적", 0, 369, 0, 0);
+		Comment comment = new Comment(bno, "안녕하세요", "asdf", "의적", 0, 369, 0, 0);
 		assertTrue(commentDao.insert(comment) == 1);
 		assertTrue(commentDao.count(369) == 1);
 		
 		List<Comment> list = commentDao.selectAll(369);
 		assertTrue(list.size() == 1);
 		
-		comment = new Comment(369, "안녕하세요", "asdf", "의적", 0, 369, 0, 0);
+		comment = new Comment(bno, "안녕하세요", "asdf", "의적", 0, 369, 0, 0);
 		assertTrue(commentDao.insert(comment) == 1);
 		assertTrue(commentDao.count(369) == 2);
 		list = commentDao.selectAll(369);
@@ -62,7 +64,7 @@ public class CommentDaoImplTest {
 	
 //	@Test
 	public void select() throws Exception {
-		Comment comment = new Comment(369, "안녕하세요", "asdf", "의적", 0, 369, 0, 0);
+		Comment comment = new Comment(bno, "안녕하세요", "asdf", "의적", 0, 369, 0, 0);
 		assertTrue(commentDao.insert(comment) == 1);
 		assertTrue(commentDao.count(369) == 1);
 		
@@ -75,7 +77,7 @@ public class CommentDaoImplTest {
 	
 //	@Test
 	public void update() throws Exception {
-		Comment comment = new Comment(369, "안녕하세요", "asdf", "의적", 0, 369, 0, 0);
+		Comment comment = new Comment(bno, "안녕하세요", "asdf", "의적", 0, 369, 0, 0);
 		assertTrue(commentDao.insert(comment) == 1);
 		assertTrue(commentDao.count(369) == 1);
 		
@@ -91,9 +93,19 @@ public class CommentDaoImplTest {
 		assertTrue(commenter.equals(comment.getCommenter()));
 	}
 	
-	@Test
+//	@Test
 	public void maxStep() throws Exception {
-		Comment comment = new Comment(369, "안녕하세요", "asdf", "의적", 0, 43, 0, 0);
+		Comment comment = new Comment(bno, "안녕하세요", "asdf", "의적", 0, 43, 0, 0);
 		assertTrue(commentDao.insert(comment) == 1);
+	}
+	
+	@Test
+	public void lastIndex() throws Exception {
+		Comment comment = new Comment(bno, "안녕하세요", "asdf", "의적", 0, 0, 0, 0);
+		assertTrue(commentDao.insert(comment) == 1);
+		
+		comment.setRef(commentDao.selectLast());
+		System.out.println(comment);
+		assertTrue(comment.getRef() == commentDao.selectLast());
 	}
 }

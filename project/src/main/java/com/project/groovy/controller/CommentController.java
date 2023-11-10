@@ -50,7 +50,7 @@ public class CommentController {
 	@DeleteMapping("/comments/{cno}")
 	@ResponseBody
 	public ResponseEntity<String> remove(@PathVariable Integer cno, Integer bno, HttpSession session) {
-		String commenter = "asdf";
+		String commenter = (String)session.getAttribute("id");
 		System.out.println(cno + ", " + bno);
 		
 		try {
@@ -81,6 +81,11 @@ public class CommentController {
 			System.out.println(comment);
 			
 			if (cnt != 1) throw new Exception("write Error");
+			int cno = commentService.lastIndex();
+			comment = commentService.read(cno);
+			comment.setRef(cno);
+			commentService.modify(comment);
+			
 			return new ResponseEntity<String>("WRITE_OK", HttpStatus.OK);
 		}
 		catch (Exception e) {
@@ -102,7 +107,14 @@ public class CommentController {
 			String nickname = userService.select(commenter).getNickname();
 			comment.setCommenter_nickname(nickname);
 			System.out.println("comment = " + comment);
-			commentService.updateStep(comment);
+			
+			if (comment.getRe_step() == 1 && comment.getRe_level() == 1) {
+				comment.setRe_step(commentService.maxStep(comment.getRef()));
+			}
+			else {
+				commentService.updateStep(comment);
+			}
+			
 			int cnt = commentService.write(comment);
 			System.out.println(comment);
 			
