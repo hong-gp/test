@@ -101,4 +101,24 @@ public class ReviewServiceImpl implements ReviewService {
 	public int countReviewCnt(Integer revire_num) throws Exception {
 		return reviewDao.countReviewCnt(revire_num);
 	}
+
+	@Override
+	public Map selectReviewAvg(String album_id) throws Exception {
+		return reviewDao.selectReviewAvg(album_id);
+	}
+
+	@Override
+	public Review selectRandomReview() throws Exception {
+		return reviewDao.selectRandomReview();
+	}
+
+	@Override
+	public List<Review> selectAllRate() throws Exception {
+		return reviewDao.selectAllRate();
+	}
+
+	@Override
+	public List<Review> getReviewUser(String user_id) throws Exception {
+		return reviewDao.selectReviewUser(user_id);
+	}
 }

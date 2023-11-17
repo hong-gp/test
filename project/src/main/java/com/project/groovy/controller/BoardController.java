@@ -1,19 +1,19 @@
 package com.project.groovy.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.project.groovy.model.Board;
@@ -51,6 +51,12 @@ public class BoardController {
 		
 		try {
 			int totalCnt = boardService.searchResultCnt(sc);
+			List<Map> tmp = boardService.getBestBoard();
+			List<Board> bestBoard = new ArrayList<>();
+			
+			for (Map map : tmp) {
+				bestBoard.add(boardService.select((int)map.get("bno")));
+			}
 			PageHandler pageHandler = new PageHandler(totalCnt, sc);
 			System.out.println(sc);
 			
@@ -61,6 +67,7 @@ public class BoardController {
 			Date now = new Date();
 			model.addAttribute("now", now);
 			model.addAttribute("time", Time.calculateTime(now));
+			model.addAttribute("bestBoard", bestBoard);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,12 +91,14 @@ public class BoardController {
 		try {
 			redatt.addAttribute("page", page);
 			redatt.addAttribute("pageSize", pageSize);
+			
 			String writer = (String)session.getAttribute("id");
-			System.out.println(writer);
 			User user = userService.select(writer);
-			System.out.println(user);
 			board.setWriter_nickname(user.getNickname());
 			board.setWriter(writer);
+			
+			String uploadFolder = "";
+			
 			int rowCnt = boardService.insert(board);
 			
 			if (rowCnt == 1) {

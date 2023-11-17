@@ -12,6 +12,7 @@ import com.project.groovy.service.SpotifyService;
 
 import se.michaelthelin.spotify.model_objects.specification.Album;
 import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 
 @Controller
 public class SpotifyController {
@@ -19,8 +20,8 @@ public class SpotifyController {
 	@Autowired
 	private SpotifyService spotifyService;
 
-	@GetMapping("/search")
-	public String searchAlbum(@RequestParam(name = "query") String query, Model model) {
+	@GetMapping("/searchTest")
+	public String searchAlbum(@RequestParam(name = "search") String query, Model model) {
 		List<Album> albums = spotifyService.searchAlbums(query);
 		model.addAttribute("albums", albums);
 		return "album-list";
@@ -28,8 +29,15 @@ public class SpotifyController {
 
 	@GetMapping("/latest-albums")
 	public String getLatestAlbums(Model model) {
-		List<AlbumSimplified> latestAlbums = spotifyService.getLatestAlbums();
+		List<AlbumSimplified> latestAlbums = spotifyService.getLatestAlbums(50);
 		model.addAttribute("latestAlbums", latestAlbums);
 		return "latest-album-list";
+	}
+	
+	@GetMapping("/recom-albums")
+	public String getRecomAlbums(Model model) {
+		List<Track> recom = spotifyService.getRecommendAlbums("", "", "");
+		model.addAttribute("albums", recom);
+		return "test-recom";
 	}
 }

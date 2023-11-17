@@ -23,7 +23,7 @@
         <div id="main">
             <div id="write">
                 <div class="container content_container">
-                    <form id="write_box" action='<c:url value="write" />' method="post">
+                    <form id="write_box" action='<c:url value="write" />' method="post" enctype="multipart/form-data">
                         <div class="write_header">
                             <h2>글쓰기</h2>
                         </div>

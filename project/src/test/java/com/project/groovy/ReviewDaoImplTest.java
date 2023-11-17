@@ -4,8 +4,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
+import java.util.Map;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.project.groovy.dao.ReviewDao;
-import com.project.groovy.model.Board;
 import com.project.groovy.model.Review;
 import com.project.groovy.model.SearchCondition;
 
@@ -26,7 +25,7 @@ public class ReviewDaoImplTest {
 	
 	String album_id = "1234";
 	
-	@Before
+//	@Before
 	public void before() throws Exception {
 		reviewDao.deleteAll(album_id);
 	}
@@ -187,4 +186,11 @@ public class ReviewDaoImplTest {
 	public void testSearchResultCnt() {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	public void ¸®ºä_Æò±Õ_°³¼ö_¸ÊÀ¸·Î_Á¶È¸() throws Exception {
+		Map<Double, Long> map = reviewDao.selectReviewAvg("3bKcoHSsmTEWHAGXqwOneo");
+		assertTrue(map.get("count") == 2);
+	}
 }
+

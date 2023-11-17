@@ -11,6 +11,7 @@
     <ul>
         <c:forEach var="album" items="${ albums }">
         	<li>
+        		<p>${ album.tracks.items[0] }</p>
         		<img alt="" src="${ album.images[2].url }">
 	            <h2>${ album.name }</h2>
 	            <p>${album.artists[0].name}</p>

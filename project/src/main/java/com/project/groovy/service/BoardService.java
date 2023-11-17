@@ -40,4 +40,6 @@ public interface BoardService {
 	int deleteLike(Integer bno, String id) throws Exception;
 	
 	int selectLike(Integer bno, String id) throws Exception;
+	
+	List<Map> getBestBoard() throws Exception;
 }

@@ -12,7 +12,7 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/style.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/review.css">
+	href="${pageContext.request.contextPath}/css/chart.css">
 <script src="https://kit.fontawesome.com/8f808bece4.js"
 	crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
@@ -33,45 +33,44 @@
 					<div class="contents">
 						<div class="review_header">
 							<div class="review_header_title">
-								<h2>음악</h2>
-							</div>
-							<div class="review_header_genre">
-								<label for="all" class="checked-label">전체</label> <label
-									for="hiphop">힙합</label> <label for="r&b">R&B</label>
-
-								<div class="hidden">
-									<input type="radio" name="genre" id="all"> <input
-										type="radio" name="genre" id="hiphop"> <input
-										type="radio" name="genre" id="r&b">
-								</div>
+								<h2>차트</h2>
 							</div>
 						</div>
 						<div class="review_body">
 							<div class="review_body_header">
-								<form name="sortForm" class="review_body_sort" action='<c:url value="/review/list" />'>
+								<form name="sortForm" class="review_body_sort" action='<c:url value="/chart/list" />'>
 									<input type="hidden" value="latest" name="order" />
-									<ul>
-										<li class="${ param.order == 'latest' ? 'selected' : '' }" data-order="latest">최신순</li>
-										<li class="${ param.order == 'popular' ? 'selected' : '' }" data-order="popular">인기순</li>
-									</ul>
-									<div class="rate">평점</div>
+									<div>
+										<ul>
+											<li class="${ order == 'latest' ? 'selected' : '' }" data-order="latest">최신음악순</li>
+											<li class="${ order == 'review' ? 'selected' : '' }" data-order="review">리뷰순</li>
+											<li class="${ order == 'rating' ? 'selected' : '' }" data-order="rating">평점순</li>
+										</ul>
+									</div>
+									<div>
+										<div class="average">평점</div>
+										<div class="rate">리뷰</div>
+									</div>
 								</form>
 								<div class="review_lists">
-									<c:forEach var="album" items="${ latestAlbums }">
+									<c:forEach var="album" items="${ latestAlbums }" varStatus="status">
 										<div class="review_list">
 											<div class="album_thum">
 												<img src="${ album.images[0].url }" alt="">
 											</div>
 											<div class="album_info">
 												<div class="album_title">
-													<a href='<c:url value="/review/review?id=${ album.id }" />'>${ album.name }</a>
+													<a href='<c:url value="/chart/review?id=${ album.id }" />'>${ album.name }</a>
 												</div>
 												<div class="album_artist">${ album.artists[0].name }</div>
 												<div class="album_date">${ album.releaseDate }</div>
 												<div class="album_genre">${ album.albumType }</div>
 											</div>
+											<div class="album_average">
+												<span>${ empty rateList[status.index].avg ? 0 : rateList[status.index].avg }</span>
+											</div>
 											<div class="album_rate">
-												<span>3.5</span>
+												<span>${ empty rateList[status.index].count ? 0 : rateList[status.index].count }</span>
 											</div>
 										</div>
 									</c:forEach>
@@ -80,11 +79,12 @@
 						</div>
 						<div id="page">
 							<c:forEach var="i" begin="${ph.beginPage }" end="${ph.endPage }">
-								<a href='<c:url value="/review/list${ ph.sc.getQueryString(i) }"/>'
+								<a href='<c:url value="/chart/list${ ph.sc.getQueryString(i) }"/>'
 									class="${ ph.sc.page == i ? 'active' : '' }">${ i }</a>
 							</c:forEach>
 						</div>
 					</div>
+					
 					<%@ include file="aside.jsp"%>
 				</div>
 				<!-- e : container -->
@@ -111,7 +111,7 @@
                 }
             });
         });
-        const listItems = document.querySelectorAll('li');
+        const listItems = document.querySelectorAll('.review_body_sort li');
 
         listItems.forEach(item => {
             item.addEventListener('click', function () {

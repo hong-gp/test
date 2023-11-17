@@ -42,4 +42,6 @@ public interface BoardDao {
 	int deleteLikeAll() throws Exception;
 	
 	int selectLike(Integer bno, String id) throws Exception;
+	
+	List<Map> selectBestBoard() throws Exception;
 }

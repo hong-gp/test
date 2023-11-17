@@ -121,5 +121,10 @@ public class BoardDaoImpl implements BoardDao {
 		map.put("id", id);
 		return session.selectOne(namespace + "selectLike", map);
 	}
+
+	@Override
+	public List<Map> selectBestBoard() throws Exception {
+		return session.selectList(namespace + "selectBestBoard");
+	}
 	
 }

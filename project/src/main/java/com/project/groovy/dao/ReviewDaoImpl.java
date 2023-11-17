@@ -136,4 +136,24 @@ public class ReviewDaoImpl implements ReviewDao {
 	public int countReviewCnt(Integer review_num) throws Exception {
 		return session.selectOne(namespace + "countReviewCnt", review_num);
 	}
+
+	@Override
+	public Map selectReviewAvg(String album_id) throws Exception {
+		return session.selectOne(namespace + "selectReviewAvg", album_id);
+	}
+
+	@Override
+	public Review selectRandomReview() throws Exception {
+		return session.selectOne(namespace + "selectRandomReview");
+	}
+	
+	@Override
+	public List<Review> selectAllRate() throws Exception {
+		return session.selectList(namespace + "selectAllRate");
+	}
+
+	@Override
+	public List<Review> selectReviewUser(String user_id) throws Exception {
+		return session.selectList(namespace + "selectReviewUser", user_id);
+	}
 }

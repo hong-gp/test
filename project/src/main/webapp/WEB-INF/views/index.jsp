@@ -29,48 +29,44 @@
                         <h2>리뷰</h2>
                     </div>
                     <div class="review_body">
+                    	<div class="review_body_bg"
+                    		style="background: url('${ album.images[0].url }') no-repeat center; background-size: cover;"></div>
+                    	<div class="review_body_bg_color"></div>
                         <div class="review_album">
                             <div class="thum">
-                                <img src="images/album/Taylor-Swift-1989-Taylors-Version.webp" alt="">
+                                <img src="${ album.images[0].url }" alt="">
                             </div>
                         </div>
-                        <!-- 데이터베이스 연동 (랜덤 / 최신) -->
                         <div class="review_review">
                             <div class="review_review_header">
-                                <div class="genre">팝/R&B</div>
                                 <div class="title">
-                                    <h2>1989 (Taylor’s Version)</h2>
+                                    <h2>${ album.name }</h2>
                                 </div>
                                 <div class="artist">
-                                    <h3>Taylor Swift</h3>
+                                    <h3>${ album.artists[0].name }</h3>
                                 </div>
                             </div>
                             <div class="review_review_body">
                                 <div class="profile">
-                                    <img src="#" alt="">
-                                    <p>Review by name</p>
+                                    <p>Review by ${ review.user_nickname }</p>
                                 </div>
                                 <div class="rank">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    <i class="fa-regular fa-star"></i>
+                                    <c:forEach var="i" begin="1" end="5">
+										<c:choose>
+											<c:when test="${ review.rate >= i }">
+												<i class="fa-solid fa-star fa-sm"></i>
+											</c:when>
+											<c:when test="${ review.rate == (i - 0.5) }">
+												<i class="fa-solid fa-star-half-stroke fa-sm"></i>
+											</c:when>
+											<c:otherwise>
+												<i class="fa-regular fa-star fa-sm"></i>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
                                 </div>
                                 <div class="review_text">
-                                    Kristin Hayter's artistic acumen is unlike anybody else working today.
-
-                                    I fear that people will look uncharitably at her shift in sound and style, and see it as
-                                    a downgrade of sorts from Lingua Ignota. While I'll miss Lingua Ignota, there is a part
-                                    of me who finds comfort in her retirement. For this, I cite two reasons. (1) While I
-                                    feel an incomparable gravitas to Kristin's performances, to me, it is obviously
-                                    unsustainable for one to--on command--slip in and out of such an intense state of grief.
-                                    I, for one, don't want to see Kristin burn out or ruin her body because of the physical
-                                    and emotional ordeals that Lingua Ignota demands. (2) With All Bitches Die, Caligula,
-                                    and Sinner Get Ready, Kristin has used Lingua Ignota to dive in, investigate her grief,
-                                    and, at the end of the final record, find peace. To me, that is a perfect conclusion and
-                                    there is no reason to take the project even further.
-
+                                    ${ review.comment }
                                 </div>
                             </div>
                         </div>
@@ -88,61 +84,19 @@
                     <div class="latest_album_body">
                         <!-- 데이터 베이스 연동 최신 기준 -->
                         <ul>
-                            <a href="#">
-                                <li>
-                                    <div class="thum">
-                                        <img src="images/album/Taylor-Swift-1989-Taylors-Version.webp" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <div class="title">1989 (Taylor’s Version)</div>
-                                        <div class="artist">Taylor Swift</div>
-                                    </div>
-                                </li>
-                            </a>
-                            <a href="#">
-                                <li>
-                                    <div class="thum">
-                                        <img src="images/album/Taylor-Swift-1989-Taylors-Version.webp" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <div class="title">1989 (Taylor’s Version)</div>
-                                        <div class="artist">Taylor Swift</div>
-                                    </div>
-                                </li>
-                            </a>
-                            <a href="#">
-                                <li>
-                                    <div class="thum">
-                                        <img src="images/album/Taylor-Swift-1989-Taylors-Version.webp" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <div class="title">1989 (Taylor’s Version)</div>
-                                        <div class="artist">Taylor Swift</div>
-                                    </div>
-                                </li>
-                            </a>
-                            <a href="#">
-                                <li>
-                                    <div class="thum">
-                                        <img src="images/album/Taylor-Swift-1989-Taylors-Version.webp" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <div class="title">1989 (Taylor’s Version)</div>
-                                        <div class="artist">Taylor Swift</div>
-                                    </div>
-                                </li>
-                            </a>
-                            <a href="#">
-                                <li>
-                                    <div class="thum">
-                                        <img src="images/album/Taylor-Swift-1989-Taylors-Version.webp" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <div class="title">1989 (Taylor’s Version)</div>
-                                        <div class="artist">Taylor Swift</div>
-                                    </div>
-                                </li>
-                            </a>
+                        	<c:forEach var="album" items="${ latestAlbum }">
+	                            <a href="<c:url value='/chart/review?id=${ album.id }' />">
+	                                <li>
+	                                    <div class="thum">
+	                                        <img src="${ album.images[0].url }" alt="">
+	                                    </div>
+	                                    <div class="info">
+	                                        <div class="title">${ album.name }</div>
+	                                        <div class="artist">${ album.artists[0].name }</div>
+	                                    </div>
+	                                </li>
+	                            </a>
+                            </c:forEach>
                         </ul>
                     </div>
                 </div>
@@ -151,6 +105,9 @@
 
             <!-- s : news -->
             <div id="news">
+                	<div class="news_header">
+                		<span>NEWS</span>
+                	</div>
                 <div class="container">
                     <div class="news_main">
                         <a href="#">
@@ -200,6 +157,7 @@
         <!-- e : footer -->
     </div>
     <!-- e : wrap -->
+    
 </body>
 
 </html>

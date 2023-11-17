@@ -16,6 +16,7 @@ public class Board {
 	private int comment_cnt;
 	private int like_cnt;
 	private boolean is_update;
+	private String img_src;
 
 	public int getNum() {
 		return num;
@@ -105,17 +106,26 @@ public class Board {
 		this.is_update = is_update;
 	}
 
+	public String getImg_src() {
+		return img_src;
+	}
+
+	public void setImg_src(String img_src) {
+		this.img_src = img_src;
+	}
+
 	public Board() {
 		super();
 	}
 
-	public Board(String category, String title, String content, String writer, String writer_nickname) {
+	public Board(String category, String title, String content, String writer, String writer_nickname, String img_src) {
 		super();
 		this.category = category;
 		this.title = title;
 		this.content = content;
 		this.writer = writer;
 		this.writer_nickname = writer_nickname;
+		this.img_src = img_src;
 	}
 
 	@Override

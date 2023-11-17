@@ -9,11 +9,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.groovy.model.User;
 import com.project.groovy.service.UserService;
@@ -52,9 +56,11 @@ public class UserController {
 			String msg = URLEncoder.encode("아이디또는 비밀번호가 일치하지 않습니다.", "utf-8");
 			return "redirect:/login?msg=" + msg;
 		}
+		String nickname = userService.select(id).getNickname();
 		
 		HttpSession session = req.getSession();
 		session.setAttribute("id", id);
+		session.setAttribute("nickname", nickname);
 		
 		if (rememberId) {
 			Cookie cookie = new Cookie("id", id);
@@ -116,11 +122,21 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@PostMapping("/register")
-	public String save(User user, Model model, HttpServletResponse resp) throws Exception {
-		int rowCnt = userService.regist(user);
-		PrintWriter out = resp.getWriter();
-		out.print(rowCnt);
-		return "register";
+	@ResponseBody
+	public ResponseEntity<String> save(@RequestBody User user, Model model) {
+		
+		try {
+			User check = userService.select(user.getId());
+			if (check != null) {
+				return new ResponseEntity<String>("REGIST_CHECK", HttpStatus.OK);
+			}
+			int rowCnt = userService.regist(user);
+			if (rowCnt != 1) throw new Exception("regist error");
+			return new ResponseEntity<String>("REGIST_OK", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("REGIST_ERROR", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**

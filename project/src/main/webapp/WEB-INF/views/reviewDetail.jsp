@@ -69,7 +69,7 @@
 									</tr>
 									<tr>
 										<td>Genres</td>
-										<td><c:if test="${ empty album.genres }">
+										<td><c:if test="${ empty album.genres[0] }">
                                         		분류중
                                         	</c:if> <c:forEach var="genre"
 												items="${ album.genres }">
@@ -78,7 +78,7 @@
 									</tr>
 									<tr>
 										<td>Rating</td>
-										<td>3.5</td>
+										<td>${ empty map.avg ? 0 : map.avg }</td>
 									</tr>
 								</table>
 							</div>

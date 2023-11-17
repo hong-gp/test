@@ -8,6 +8,11 @@
 		select album_id, count(*) from review 
 		GROUP BY album_id order by count(*) desc;
 	</select>
+	
+	<select id="selectReviewAvg" resultType="map" parameterType="String">
+		SELECT AVG(rate) as avg, count(*) as count FROM review 
+		where album_id=#{album_id};
+	</select>
 
 	<select id="count" parameterType="String" resultType="integer">
 		select count(*) from review where album_id=#{album_id}
@@ -17,8 +22,18 @@
 		select * from review where album_id=#{album_id}
 	</select>
 	
+	<select id="selectReviewUser" parameterType="String" resultType="Review">
+		select * from review where user_id=#{user_id}
+	</select>
+	
 	<select id="select" resultType="Review" parameterType="integer">
 		select * from review where num=#{num}
+	</select>
+	
+	<select id="selectAllRate" resultType="Review">
+		select album_id, AVG(rate) from review 
+		GROUP BY album_id
+		order by AVG(rate) desc
 	</select>
 	
 	<select id="selectRate" resultType="Review" parameterType="map">
@@ -108,6 +123,10 @@
 	<select id="searchResultCnt" parameterType="String" resultType="int">
 		select count(*) from review
 		where album_id=#{album_id}
+	</select>
+	
+	<select id="selectRandomReview" resultType="Review">
+		select * from review order by rand() limit 1;
 	</select>
 	
 </mapper>

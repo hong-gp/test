@@ -9,6 +9,7 @@ public class SearchCondition {
 	private String keyword = "";
 	private String optionSearch;
 	private String optionCategory;
+	private String search;
 	
 	public Integer getPage() {
 		return page;
@@ -59,6 +60,12 @@ public class SearchCondition {
 	public void setOptionCategory(String optionCategory) {
 		this.optionCategory = optionCategory;
 	}
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
 	
 	public String getQueryString(Integer page) {
 		if ("".equals(keyword) || keyword == null) {
@@ -72,6 +79,19 @@ public class SearchCondition {
 				.queryParam("optionSearch", optionSearch)
 				.queryParam("optionCategory", optionCategory)
 				.queryParam("keyword", keyword)
+				.build().toString();
+	}
+	
+	public String getReviewQueryString(Integer page) {
+		if ("".equals(search) || search == null) {
+			return UriComponentsBuilder.newInstance()
+					.queryParam("page", page)
+					.queryParam("pageSize", pageSize).build().toString();
+		}
+		return UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("pageSize", pageSize)
+				.queryParam("search", search)
 				.build().toString();
 	}
 	public String getQueryString() {

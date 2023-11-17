@@ -13,6 +13,13 @@
 						<h2>Groovy</h2>
 					</a>
 				</div>
+				<form name="searchForm" class="input_search_box" action='<c:url value="/search" />'>
+					<input type="text" name="search" id="input_search" placeholder="검색..."
+						value="${ param.search }">
+					<a href="javascript:;" class="search_icon">
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</a>
+				</form>
 			</div>
 			<div class="header_menu">
 				<div class="nav">
@@ -20,14 +27,11 @@
 						<a href="<c:url value='/news/list' />">
 							<li>뉴스</li>
 						</a>
-						<a href="<c:url value='/review/list' />">
-							<li>리뷰</li>
-						</a>
-						<a href="#">
-							<li>추천</li>
-						</a>
-						<a href="#">
+						<a href="<c:url value='/chart/list' />">
 							<li>차트</li>
+						</a>
+						<a href="<c:url value='/recommend/recommend' />">
+							<li>추천</li>
 						</a>
 						<a href="<c:url value='/board/list' />">
 							<li>커뮤니티</li>
@@ -46,6 +50,9 @@
 								</a>
 							</c:when>
 							<c:otherwise>
+								<a href='<c:url value="/mypage/userInfo" />'>
+									<li>${ sessionScope.nickname }</li>
+								</a>
 								<a href='<c:url value="/logout" />'>
 									<li>로그아웃</li>
 								</a>
@@ -57,5 +64,17 @@
 		</div>
 	</div>
 	<!-- e : header -->
+	
+	<script>
+		document.querySelector(".search_icon").addEventListener('click', function() {
+			let search = document.querySelector("#input_search").value;
+			
+			if (search == '' || search == null) {
+				alert("검색어를 입력해주세요.");
+				return;
+			}
+			searchForm.submit();
+		});
+	</script>
 </body>
 </html>

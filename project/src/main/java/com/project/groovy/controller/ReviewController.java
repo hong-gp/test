@@ -2,6 +2,7 @@ package com.project.groovy.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.project.groovy.model.Board;
 import com.project.groovy.model.PageHandler;
 import com.project.groovy.model.Review;
 import com.project.groovy.model.SearchCondition;
+import com.project.groovy.service.BoardService;
 import com.project.groovy.service.ReviewService;
 import com.project.groovy.service.SpotifyService;
 import com.project.groovy.service.UserService;
@@ -26,49 +29,83 @@ import se.michaelthelin.spotify.model_objects.specification.Album;
 import se.michaelthelin.spotify.model_objects.specification.AlbumSimplified;
 
 @Controller
-@RequestMapping("review")
+@RequestMapping("chart")
 public class ReviewController {
 	
 	private SpotifyService spotifyService;
 	private UserService userService;
 	private ReviewService reviewService;
+	private BoardService boardService;
 	
 	@Autowired
-	public ReviewController(SpotifyService spotifyService, UserService userService, ReviewService reviewService) {
+	public ReviewController(SpotifyService spotifyService, UserService userService, ReviewService reviewService, BoardService boardService) {
 		super();
 		this.spotifyService = spotifyService;
 		this.userService = userService;
 		this.reviewService = reviewService;
+		this.boardService = boardService;
 	}
 
 	@GetMapping("/list")
-	public String getLatestAlbums(String order, SearchCondition sc, Model model) {
-		if (order.equals("latest")) {
-			List<AlbumSimplified> latestAlbums = spotifyService.getLatestAlbums();
-			List<AlbumSimplified> list = new ArrayList<>();
-			for (int i=sc.getPage()*10 - 10; i<sc.getPage()*10; i++) {
-				list.add(latestAlbums.get(i));
+	public String getLatestAlbums(String order, String search, SearchCondition sc, Model model) {
+		if (order == null || "".equals(order)) {
+			order = "latest";
+		}
+		model.addAttribute("order", order);
+		try {
+			if ("latest".equals(order)) {
+				List<AlbumSimplified> latestAlbums = spotifyService.getLatestAlbums(50);
+				List<AlbumSimplified> list = new ArrayList<>();
+				for (int i=sc.getPage()*10 - 10; i<sc.getPage()*10; i++) {
+					list.add(latestAlbums.get(i));
+				}
+				List<Map<Double, Long>> avgs = new ArrayList<>();
+				
+				for (AlbumSimplified album : list) {
+					String albumId = album.getId();
+					avgs.add(reviewService.selectReviewAvg(albumId));
+				}
+
+				PageHandler ph = new PageHandler(latestAlbums.size(), sc);
+				model.addAttribute("ph", ph);
+				model.addAttribute("latestAlbums", list);
+				model.addAttribute("rateList", avgs);
+			} 
+			else if ("review".equals(order)) {
+					List<Review> list = reviewService.selectAllReview();
+					List<Map<Double, Long>> rateList = new ArrayList<>();
+					List<Album> albums = new ArrayList<>();
+					for (Review review : list) {
+						albums.add(spotifyService.searchAlbumById(review.getAlbum_id()));
+						rateList.add(reviewService.selectReviewAvg(review.getAlbum_id()));
+					}
+					PageHandler ph = new PageHandler(albums.size(), sc);
+					model.addAttribute("ph", ph);
+					model.addAttribute("latestAlbums", albums);
+					model.addAttribute("rateList", rateList);
 			}
-			PageHandler ph = new PageHandler(latestAlbums.size(), sc);
-			model.addAttribute("ph", ph);
-			model.addAttribute("latestAlbums", list);
-		} else if (order.equals("popular")) {
-			try {
-				List<Review> list = reviewService.selectAllReview();
+			else if ("rating".equals(order)) {
+				List<Review> list = reviewService.selectAllRate();
+				List<Map<Double, Long>> rateList = new ArrayList<>();
 				List<Album> albums = new ArrayList<>();
 				for (Review review : list) {
 					albums.add(spotifyService.searchAlbumById(review.getAlbum_id()));
+					rateList.add(reviewService.selectReviewAvg(review.getAlbum_id()));
 				}
 				PageHandler ph = new PageHandler(albums.size(), sc);
 				model.addAttribute("ph", ph);
 				model.addAttribute("latestAlbums", albums);
-			} catch (Exception e) {
-				e.printStackTrace();
-				model.addAttribute("msg", "error");
-				return "review";
+				model.addAttribute("rateList", rateList);
 			}
+			
+			todayBoard(model);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("msg", "error");
+			return "chart";
 		}
-		return "review";
+		return "chart";
 	}
 	
 	@GetMapping("/review")
@@ -80,12 +117,18 @@ public class ReviewController {
 				list.get(i).setComment(list.get(i).getComment().replace("\r\n", "<br>"));
 			}
 			int cnt = reviewService.count(id);
+			Map map = reviewService.selectReviewAvg(id);
 			model.addAttribute("album", album);
 			model.addAttribute("reviews", list);
 			model.addAttribute("cnt", cnt);
+			model.addAttribute("map", map);
+			
+			todayBoard(model);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return "reviewDetail";
 	}
 	
@@ -101,14 +144,15 @@ public class ReviewController {
 			
 			if (rowCnt != 0) {
 				model.addAttribute("msg", "write_ok");
-				return "redirect:/review/review?id=" + review.getAlbum_id();
+				return "redirect:/chart/chart?id=" + review.getAlbum_id();
 			} else {
 				throw new Exception("write error");
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("msg", "write_error");
-			return "redirect:/review/review?id=" + review.getAlbum_id();
+			return "redirect:/chart/chart?id=" + review.getAlbum_id();
 		}
 	}
 	
@@ -124,11 +168,14 @@ public class ReviewController {
 			if (res != 1) throw new Exception("Modify Error");
 			
 			model.addAttribute("msg", "modify_ok");
-			return "redirect:/review/review?id=" + review.getAlbum_id();
+			
+			todayBoard(model);
+			
+			return "redirect:/chart/chart?id=" + review.getAlbum_id();
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("msg", "modify_error");
-			return "redirect:/review/review?id=" + review.getAlbum_id();
+			return "redirect:/chart/chart?id=" + review.getAlbum_id();
 		}
 	}
 	
@@ -141,11 +188,11 @@ public class ReviewController {
 			if (rowCnt != 1) throw new Exception("Delete Error");
 			
 			model.addAttribute("msg", "delete_ok");
-			return "redirect:/review/review?id=" + review.getAlbum_id();
+			return "redirect:/chart/chart?id=" + review.getAlbum_id();
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("msg", "delete_error");
-			return "redirect:/review/review?id=" + review.getAlbum_id();
+			return "redirect:/chart/chart?id=" + review.getAlbum_id();
 		}
 	}
 	
@@ -183,5 +230,14 @@ public class ReviewController {
 			e.printStackTrace();
 			return new ResponseEntity<Integer>(-1, HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	private void todayBoard(Model model) throws Exception {
+		List<Map> tmp = boardService.getBestBoard(); 
+		List<Board> bestBoard = new ArrayList<>();
+		for (Map map : tmp) {
+			bestBoard.add(boardService.select((int)map.get("bno"))); 
+		}
+		model.addAttribute("bestBoard", bestBoard);
 	}
 }

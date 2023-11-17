@@ -1,6 +1,7 @@
 package com.project.groovy.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.project.groovy.model.Review;
 import com.project.groovy.model.SearchCondition;
@@ -8,10 +9,14 @@ import com.project.groovy.model.SearchCondition;
 public interface ReviewService {
 	
 	List<Review> selectAllReview() throws Exception;
+	
+	Map selectReviewAvg(String album_id) throws Exception;
 
 	int count(String album_id) throws Exception;
 
 	List<Review> selectAll(String album_id) throws Exception;
+	
+	List<Review> getReviewUser(String user_id) throws Exception;
 
 	List<Review> selectRate(String album_id, String order) throws Exception;
 
@@ -40,4 +45,8 @@ public interface ReviewService {
 	Review selectReviewLike(String user_id, Integer review_num) throws Exception;
 
 	int countReviewCnt(Integer revire_num) throws Exception;
+	
+	Review selectRandomReview() throws Exception;
+	
+	List<Review> selectAllRate() throws Exception;
 }

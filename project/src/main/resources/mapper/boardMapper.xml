@@ -25,8 +25,8 @@
 	</delete>
 	
 	<insert id="insert" parameterType="Board">
-		insert into board (category, title, content, writer, writer_nickname)
-		values (#{category}, #{title}, #{content}, #{writer}, #{writer_nickname})
+		insert into board (category, title, content, writer, writer_nickname, img_src)
+		values (#{category}, #{title}, #{content}, #{writer}, #{writer_nickname}, #{img_src})
 	</insert>
 	
 	<update id="increaseViewCnt" parameterType="int">
@@ -36,7 +36,7 @@
 	
 	<update id="update" parameterType="Board">
 		update board 
-		set category = #{category}, title = #{title}, content = #{content} 
+		set category = #{category}, title = #{title}, content = #{content}, img_src = #{img_src}
 		where num = #{num} and writer=#{writer}
 	</update>
 	
@@ -121,4 +121,10 @@
 	<delete id="deleteLike" parameterType="map">
 		delete from boardLike where id=#{id} AND bno=#{bno}
 	</delete>
+	
+	<select id="selectBestBoard" resultType="map">
+		select bno, count(*) as count from boardlike 
+		where date(reg_date) = date(now()) 
+		group by bno order by count desc limit 5
+	</select>
 </mapper>

@@ -97,4 +97,9 @@ public class BoardServiceImpl implements BoardService {
 	public int selectLike(Integer bno, String id) throws Exception {
 		return boardDao.selectLike(bno, id);
 	}
+
+	@Override
+	public List<Map> getBestBoard() throws Exception {
+		return boardDao.selectBestBoard();
+	}
 }

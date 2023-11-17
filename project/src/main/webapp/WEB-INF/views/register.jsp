@@ -240,7 +240,10 @@
     	    	$.ajax({
     	    		url: "/groovy/register",
     	    		type: "post",
-    	    		data: {
+    	    		headers: {
+        				"content-type": "application/json"
+        			},
+    	    		data: JSON.stringify({
     	    			id: id,
     	    			password: password,
     	    			name: name,
@@ -248,15 +251,14 @@
     	    			tel: tel,
     	    			email: email,
     	    			birth: birth
-    	    		},
+    	    		}),
     	    		success: function(result) {
-    	    			console.log(result);
-    	    			if (result != 0) {
-    	    				console.log("성공");
-    	    				location.href = ("/groovy/login");
+    	    			if (result == "REGIST_CHECK") {
+    	    				nullId.innerHTML = "중복된 아이디입니다.";
+    	    			} else if (result == "REGIST_OK") {
+    	    				location.href = '<c:url value="/login" />';
     	    			} else {
-    	    				console.log("실패");
-    	    				$("#nullId").html("이미 존재하는 아이디입니다.");
+    	    				alert("잠시 후 다시 시도해주세요.");
     	    			}
     	    		},
     	    		error: function(request, status, error) {

@@ -33,7 +33,7 @@ public class CommentServiceImplTest {
 	
 	@Test
 	public void remove() throws Exception {
-		Board board = new Board("음악", "제목1", "내용1", "asdf", "의적");
+		Board board = new Board("음악", "제목1", "내용1", "asdf", "의적", null);
 		assertTrue(boardDao.insert(board) == 1);
 		
 		Integer num = boardDao.selectAll().get(0).getNum();
@@ -53,7 +53,7 @@ public class CommentServiceImplTest {
 	
 //	@Test
 	public void write() throws Exception {
-		Board board = new Board("음악", "제목1", "내용1", "asdf", "의적");
+		Board board = new Board("음악", "제목1", "내용1", "asdf", "의적", null);
 		assertTrue(boardDao.insert(board) == 1);
 		
 		Integer num = boardDao.selectAll().get(0).getNum();
